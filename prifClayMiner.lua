@@ -150,6 +150,7 @@ end
 
 local function gotoPriff()
     LODESTONES.Prifddinas()
+    STATE = STATES.GOTO_CLAY
 end
 
 local function gotoClay()
