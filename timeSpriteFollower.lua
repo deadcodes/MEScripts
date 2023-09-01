@@ -55,6 +55,6 @@ end
 -- main loop
 API.Write_LoopyLoop(true)
 while (API.Read_LoopyLoop()) do ------------------------------------------------------
-    API.RandomEvents()
+    API.DoRandomEvents()
     followTimeSprite({ itemToGather })
 end ----------------------------------------------------------------------------------
