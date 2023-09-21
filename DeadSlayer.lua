@@ -2,9 +2,15 @@
 # Script Name:   <DeadSlayer.lua>
 # Description:  <Kills stuff.>
 # Autor:        <Dead (dea.d - Discord)>
-# Version:      <1.0>
-# Datum:        <2023.09.20>
+# Version:      <1.1>
+# Datum:        <2023.09.21>
 
+#Changelog
+    - 2023-09-21 [1.1]
+        Added CheckForAnim to handle channeled abilities
+        Added longer delays before clicking next mob
+    - 2023-09-21 [1.0]
+        Release
 #Credits
 Alar (test8888) for the cpp script that inspired this
 
@@ -360,7 +366,7 @@ local function healthCheck()
     local hp = API.GetHPrecent()
     local prayer = API.GetPrayPrecent()
     local excalCD = API.DeBuffbar_GetIDstatus(IDS.EXCALIBUR, false)
-    local excalFound = API.InvItemcount_1(IDS.EXCALIBUR)
+    local excalFound = API.InvItemcount_1(IDS.EXCALIBUR_AUGMENTED)
     local elvenCD = API.DeBuffbar_GetIDstatus(IDS.ELVEN_SHARD, false)
     local elvenFound = API.InvItemcount_1(IDS.ELVEN_SHARD)
     local eatFoodAB = API.GetABs_name1("Eat Food")
@@ -404,21 +410,22 @@ local function KillMob(name)
         log('No target selected, stopping slayer');
         pauseSlayer()
     end
-    if not hasTarget() then
+    if not hasTarget() and not API.CheckAnim(20) then
         loot()
         local attackingMe = API.OthersInteractingWithLpNPC(true, 10)
         if #attackingMe > 0 then
             if attackingMe[1].Name == target then
                 API.DoAction_NPC__Direct(0x2a, API.OFF_ACT_AttackNPC_route, attackingMe[1])
+                UTILS.randomSleep(600)
             end
         else
             if API.DoAction_NPC_str(0x2a, API.OFF_ACT_AttackNPC_route, { name }, 40, false, 50) then
-                UTILS.randomSleep(1200)
+                UTILS.randomSleep(600)
                 API.WaitUntilMovingEnds()
             else
                 log('unable to find target')
                 targetNotFoundCount = targetNotFoundCount + 1
-                UTILS.randomSleep(1000)
+                UTILS.randomSleep(600)
             end
         end
     else
