@@ -158,7 +158,7 @@ local function FindHl(objects, maxdistance, highlight)
 end
 
 local function followTimeSprite(objects)
-    local targets = API.FindObject_str(objects, 60)
+    local targets = API.FindObject_string(objects, 60)
     local targetIds = {}
     for i = 1, #targets do
         local rock = targets[i]
